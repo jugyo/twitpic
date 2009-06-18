@@ -6,7 +6,7 @@ Library for TwitPic API.
 
 == INSTALL:
 
-TODO:
+　gem install twitpic
 
 == SYNOPSIS:
 
@@ -16,6 +16,10 @@ TODO:
 == REQUIREMENTS:
 
 * mime-types
+
+== TODO:
+
+* Create twitpic command
 
 == LICENSE:
 
