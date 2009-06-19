@@ -14,12 +14,6 @@ Use ad command line tool:
 
   twitpic Picture.png
 
-  Usage: twitpic [-u USERNAME -p PASSWORD -m MESSAGE] [FILE | -s]
-      -u, --username=USERNAME
-      -p, --password=PASSWORD
-      -m, --message=MESSAGE
-      -s, --screencapture
-
 Use as library:
 
   twitpic = TwitPic.new(username, password)
