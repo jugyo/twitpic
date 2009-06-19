@@ -4,6 +4,10 @@ require 'rubygems'
 require 'twitpic'
 require 'optparse'
 require "highline"
+begin
+  require "pit"
+rescue LoadError
+end
 
 username = nil
 password = nil
@@ -18,6 +22,16 @@ OptionParser.new do |o|
   o.on('-p', '--password=PASSWORD') {|v| password = v}
   o.on('-m', '--message=MESSAGE') {|v| message = v}
   o.on('-s', '--screencapture') {|v| screencapture = true}
+  o.on('-c', '--conf=CONFNAME') { |v|
+    begin
+      conf = Pit.get v
+      username = conf["username"]
+      password = conf["password"]
+    rescue
+      puts 'You don\'t have pit module. Please install pit.'
+      puts 'for example: gem install pit'
+    end
+  }
   o.permute!(ARGV)
   file = ARGV.first
   if file.nil? && screencapture.nil?
