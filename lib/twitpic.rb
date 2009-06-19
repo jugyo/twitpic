@@ -3,6 +3,8 @@ require "uri"
 require 'mime/types'
 
 class TwitPic
+  VERSION = '0.2.0'
+
   def initialize(username, password)
     @username = username
     @password = password
@@ -13,12 +15,12 @@ class TwitPic
       :username => @username,
       :password => @password
     }
-    parts[:message] = message if message
+    parts[:message] = message if message && !message.empty?
 
     body = create_body(parts, file_path, boundary)
 
     url = 
-      if message
+      if parts[:message]
         'http://twitpic.com/api/uploadAndPost'
       else
         'http://twitpic.com/api/upload'

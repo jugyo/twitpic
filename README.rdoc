@@ -16,10 +16,11 @@ Library for TwitPic API.
 == REQUIREMENTS:
 
 * mime-types
+* highline
 
 == TODO:
 
-* Create twitpic command
+* Error handling
 
 == LICENSE:
 

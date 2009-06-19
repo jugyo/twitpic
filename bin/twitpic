@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'twitpic'
+require 'optparse'
+require "highline"
+
+username = nil
+password = nil
+message = nil
+file = nil
+screencapture = nil
+
+OptionParser.new do |o|
+  o.version = TwitPic::VERSION
+  o.banner = "Usage: #{o.program_name} [-u USERNAME -p PASSWORD -m MESSAGE] [FILE | -s]"
+  o.on('-u', '--username=USERNAME') {|v| username = v}
+  o.on('-p', '--password=PASSWORD') {|v| password = v}
+  o.on('-m', '--message=MESSAGE') {|v| message = v}
+  o.on('-s', '--screencapture') {|v| screencapture = true}
+  o.permute!(ARGV)
+  file = ARGV.first
+  if file.nil? && screencapture.nil?
+    puts o.help
+    exit!
+  end
+end
+
+if file.nil? && screencapture
+  file = '/tmp/twitpic_screencapture.png'
+  File.delete(file) if File.exists?(file)
+  puts 'Please capture screen...'
+  system 'screencapture', '-i', '-f', file
+  unless File.exists?(file)
+    puts 'Aboat!'
+    exit!
+  end
+end
+
+highline = HighLine.new
+username = highline.ask('USERNAME: ') unless username
+password = highline.ask('PASSWORD: ') {|q| q.echo = '*'} unless password
+message = highline.ask('MESSAGE: ') unless message
+
+puts 'Uploading...'
+TwitPic.new(username, password).upload(file, message)

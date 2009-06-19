@@ -1,20 +1,22 @@
 $:.unshift File.dirname(__FILE__) + '/lib'
-
+require 'twitpic'
 require 'spec/rake/spectask'
 require 'rake/clean'
 require 'rake/gempackagetask'
 require 'rake/rdoctask'
 
 name = 'twitpic'
-version = '0.1.0'
+version = TwitPic::VERSION
 
 spec = Gem::Specification.new do |s|
   s.name = name
   s.version = version
   s.summary = "Library for TwitPic API."
   s.description = "Library for TwitPic API."
-  s.files = %w(Rakefile README.rdoc History.txt) + Dir.glob("{lib,spec}/**/*")
+  s.files = %w(Rakefile README.rdoc History.txt) + Dir.glob("{bin,lib,spec}/**/*")
   s.add_dependency("mime-types", ">= 1.15")
+  s.add_dependency("highline", ">= 1.5.1")
+  s.executables = ["twitpic"]
   s.authors = %w(jugyo)
   s.email = 'jugyo.org@gmail.com'
   s.homepage = 'http://github.com/jugyo/twitpic'
