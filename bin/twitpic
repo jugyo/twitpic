@@ -6,11 +6,13 @@ require 'optparse'
 require "highline"
 begin
   require "pit"
+  default = Pit.get "twitpic"
 rescue LoadError
+  default = {}
 end
 
-username = nil
-password = nil
+username = default["username"]
+password = default["password"]
 message = nil
 file = nil
 screencapture = nil
