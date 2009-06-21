@@ -4,15 +4,9 @@ require 'rubygems'
 require 'twitpic'
 require 'optparse'
 require "highline"
-begin
-  require "pit"
-  default = Pit.get "twitpic"
-rescue LoadError
-  default = {}
-end
 
-username = default["username"]
-password = default["password"]
+username = nil
+password = nil
 message = nil
 file = nil
 screencapture = nil
@@ -53,6 +47,19 @@ if file.nil? && screencapture
   end
 end
 
+# try pit
+if username.nil? && password.nil?
+  begin
+    require 'pit'
+    puts 'Load twitter config from pit...'
+    config = Pit.get('twitter')
+    username = config['username']
+    password = config['password']
+  rescue LoadError
+  end
+end
+
+# try highline
 highline = HighLine.new
 username = highline.ask('USERNAME: ') unless username
 password = highline.ask('PASSWORD: ') {|q| q.echo = '*'} unless password
