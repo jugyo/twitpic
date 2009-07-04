@@ -1,9 +1,12 @@
 require "net/https"
 require "uri"
 require 'mime/types'
+require "rexml/document"
 
 class TwitPic
   VERSION = '0.2.0'
+
+  class APIError < StandardError; end
 
   def initialize(username, password)
     @username = username
@@ -38,6 +41,20 @@ class TwitPic
       response.body
     end
     xml
+  end
+
+  def parse_response(xml)
+    doc = REXML::Document.new(xml)
+    error_element = REXML::XPath.match(doc, "/rsp/err").first
+    if error_element
+      raise APIError, error_element.attribute('code').value + ': ' + error_element.attribute('code').value
+    else
+      result = {}
+      [:statusid, :userid, :mediaid, :mediaurl].each do |key|
+        result[key] = REXML::XPath.match(doc, "/rsp/#{key}").first.text rescue nil
+      end
+      result
+    end
   end
 
   def create_body(parts, file_path, boundary)

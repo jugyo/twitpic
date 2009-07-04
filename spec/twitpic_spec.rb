@@ -32,6 +32,40 @@ password\r
     EOS
   end
 
+  describe 'response data is valid' do
+    before(:each) do
+      @xml = <<-XML
+<?xml version="1.0" encoding="UTF-8"?>
+<rsp status="ok">
+  <statusid>1111</statusid>
+  <userid>11111</userid>
+  <mediaid>abc123</mediaid>
+  <mediaurl>http://twitpic.com/abc123</mediaurl>
+</rsp>
+      XML
+    end
+
+    it 'should parse xml' do
+      result = @twitpic.parse_response(@xml)
+      result.should == {:statusid=>"1111", :userid=>"11111", :mediaid=>"abc123", :mediaurl=>"http://twitpic.com/abc123"}
+    end
+  end
+
+  describe 'response data is invalid' do
+    before(:each) do
+      @xml = <<-XML
+<?xml version="1.0" encoding="UTF-8"?>
+<rsp stat="fail">
+  <err code="1001" msg="Invalid twitter username or password" />
+</rsp>
+      XML
+    end
+
+    it 'should raise error' do
+      lambda {@twitpic.parse_response(@xml)}.should raise_error(TwitPic::APIError)
+    end
+  end
+
   describe 'with message' do
     it 'should call method "post"' do
       file_path = File.dirname(__FILE__) + '/test.txt'
