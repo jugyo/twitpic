@@ -16,6 +16,7 @@ spec = Gem::Specification.new do |s|
   s.files = %w(Rakefile README.rdoc History.txt) + Dir.glob("{bin,lib,spec}/**/*")
   s.add_dependency("mime-types", ">= 1.15")
   s.add_dependency("highline", ">= 1.5.1")
+  s.add_dependency("rubytter", ">= 0.8.0")
   s.executables = ["twitpic"]
   s.authors = %w(jugyo)
   s.email = 'jugyo.org@gmail.com'
