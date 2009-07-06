@@ -40,7 +40,7 @@ class TwitPic
       response = http.post(uri.path, body, headers)
       response.body
     end
-    xml
+    parse_response(xml)
   end
 
   def parse_response(xml)

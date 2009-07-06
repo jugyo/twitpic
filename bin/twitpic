@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'twitpic'
+require 'rubytter'
 require 'optparse'
 require "highline"
 
@@ -39,7 +40,7 @@ end
 if file.nil? && screencapture
   file = '/tmp/twitpic_screencapture.png'
   File.delete(file) if File.exists?(file)
-  puts 'Please capture screen...'
+  puts 'Please capture screen!'
   system 'screencapture', '-i', '-f', file
   unless File.exists?(file)
     puts 'Aboat!'
@@ -66,4 +67,11 @@ password = highline.ask('PASSWORD: ') {|q| q.echo = '*'} unless password
 message = highline.ask('MESSAGE: ') unless message
 
 puts 'Uploading...'
-TwitPic.new(username, password).upload(file, message)
+url = TwitPic.new(username, password).upload(file)[:mediaurl]
+puts "  => \"#{url}\""
+
+message.strip!
+post_message = "#{message} #{url}"
+puts "Post to Twitter..."
+Rubytter.new(username, password).update(post_message) if message
+puts "  => \"#{post_message}\""
