@@ -41,7 +41,7 @@ if file.nil? && screencapture
   file = '/tmp/twitpic_screencapture.png'
   File.delete(file) if File.exists?(file)
   puts 'Please capture screen!'
-  system 'screencapture', '-i', '-f', file
+  system('screencapture', '-i', '-f', file) || system('import', file)
   unless File.exists?(file)
     puts 'Aboat!'
     exit!
