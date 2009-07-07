@@ -1,4 +1,5 @@
 $:.unshift File.dirname(__FILE__) + '/lib'
+require 'rubygems'
 require 'twitpic'
 require 'spec/rake/spectask'
 require 'rake/clean'
