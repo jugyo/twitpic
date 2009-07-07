@@ -4,7 +4,7 @@ require 'mime/types'
 require "rexml/document"
 
 class TwitPic
-  VERSION = '0.3.0'
+  VERSION = '0.3.1'
 
   class APIError < StandardError; end
 
