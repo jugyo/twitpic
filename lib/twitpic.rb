@@ -57,6 +57,15 @@ class TwitPic
     end
   end
 
+  def content_type
+    type = MIME::Types.type_for(file_path).first
+    if type
+      type.content_type
+    else
+      'image/png'
+    end
+  end
+
   def create_body(parts, file_path, boundary)
     parts[:media] = open(file_path, 'rb').read
     body = ''
@@ -66,7 +75,7 @@ class TwitPic
       body << "--#{boundary}\r\n"
       if key == :media
         body << "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{File.basename(file_path)}\"\r\n"
-        body << "Content-Type: #{MIME::Types.type_for(file_path).first.content_type}\r\n"
+        body << "Content-Type: #{content_type}\r\n"
       else
         body << "Content-Disposition: form-data; name=\"#{key}\"\r\n"
       end
