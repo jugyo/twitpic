@@ -6,15 +6,15 @@ Library for TwitPic API.
 
 == INSTALL:
 
-　gem install twitpic
+  gem install twitpic
 
 == SYNOPSIS:
 
-Use ad command line tool:
+As command line tool:
 
   twitpic Picture.png
 
-Use as library:
+As library:
 
   twitpic = TwitPic.new(username, password)
   twitpic.upload('Picture.png', 'My Picture')
